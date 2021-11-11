@@ -1,0 +1,62 @@
+#include <iostream>
+
+using namespace std;
+
+#define n 10
+int hs;// size of pyramid
+void heapify(int A[], int i);
+void build_max_heap(int A[]);
+void heapsort(int A[]);
+
+
+int main()
+{
+	int arr[n];
+
+	for (int i = 0; i < n; ++i) {
+		arr[i] = rand() % 100;
+		cout << arr[i] << endl;
+	}
+
+	heapsort(arr);
+
+	for (int i = 0; i < n; ++i) {
+		cout << arr[i] << " ";
+	}
+
+}
+
+void heapify(int A[], int i) {
+	int large;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+	if (l<hs && A[l]>A[i])
+		large = l;
+	else
+			large = i;
+	if (r<hs && A[r]>A[large])
+		large = r;
+	if (large != i) {
+		int temp = A[i];
+		A[i] = A[large];
+		A[large] = temp;
+		heapify(A, large);
+	}
+}
+
+void build_max_heap(int A[]) {
+	hs = n;
+	for (int i = n / 2 - 1; i >= 0; i--)
+		heapify(A, i);
+}
+
+void heapsort(int A[]) {
+	build_max_heap(A);
+	for (int i = n - 1; i > 0; i--) {
+		int temp = A[i];
+		A[i] = A[0];
+		A[0] = temp;
+		hs--;
+		heapify(A, 0);
+	}
+}
