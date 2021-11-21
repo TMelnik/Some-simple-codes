@@ -1,0 +1,79 @@
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+
+struct Pair {
+	int a;
+	int b;
+};
+
+void BFS(int **D, Pair **P, int n, Pair start, Pair finish);
+bool ifCoord(Pair x, int n);
+void print(Pair **P, Pair s, Pair f);
+
+int main()
+{
+
+	int n;
+	Pair start;
+	Pair finish;
+
+	cin >> n >> start.a >> start.b >> finish.a >> finish.b;
+
+	int **D = new int*[n+1];
+	for (int i = 0; i < n+1; i++)
+		D[i] = new int[n+1];
+
+	for (int i = 0; i < n+1; i++)
+		for (int j = 0; j < n+1; j++)
+			D[i][j] = -1;
+
+	Pair **P = new Pair*[n+1];
+	for (int i = 0; i < n+1; i++)
+		P[i] = new Pair[n+1];
+
+	BFS(D,P,n,start,finish);
+	cout << D[finish.a][finish.b] << endl;
+	print(P, start, finish);
+}
+void BFS(int **D, Pair **P, int n, Pair start, Pair finish) {
+
+	D[start.a][start.b] = 0;
+
+	queue <Pair> Q;
+	Q.push(start);
+	Pair u, v;
+	int x[8]{-2,-2, 2, 2,-1, 1,-1, 1};
+	int y[8]{-1, 1, -1, 1, -2, -2, 2, 2 };
+	while (!Q.empty()) {
+		u = Q.front();
+		Q.pop();
+		for (int i = 0; i < 8; i++) {
+			v.a = u.a + x[i];
+			v.b = u.b + y[i];
+			if (ifCoord(v, n) && D[v.a][v.b] == -1) {
+				Q.push(v);
+				D[v.a][v.b] = D[u.a][u.b] + 1;
+				P[v.a][v.b] = u;
+				if (v.a == finish.a && v.b == finish.b)
+					break;
+			}
+		}
+	}
+}
+bool ifCoord(Pair x, int n) {
+	if (x.a >= 1 && x.a <= n && x.b >= 1 && x.b <= n)
+		return true;
+	return false;
+}
+
+void print(Pair **P, Pair s, Pair f) {
+	if (f.a == s.a && f.b == s.b) {
+		cout << f.a << " " << f.b << endl;
+		return;
+	}
+	print(P, s, P[f.a][f.b]);
+	cout << f.a << " " << f.b << endl;
+}

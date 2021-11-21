@@ -1,0 +1,77 @@
+#include <iostream>
+#include<queue>
+
+using namespace std;
+
+struct Pair {
+	int x, y;
+};
+
+void BFS(int **A, int **D, int n, int m);
+bool ifCoord(Pair x, int n, int m);
+
+int main()
+{
+	int n, m;
+	cin >> n >> m;
+	int** A = new int*[n + 1];
+	for (int i = 0; i < n + 1; i++) {
+		A[i] = new int[m + 1];
+	}
+	for (int i = 1; i < n + 1; i++)
+		for (int j = 1; j < m + 1; j++)
+			cin >> A[i][j];
+
+
+	int** B = new int*[n + 1];
+	for (int i = 0; i < n + 1; i++) {
+		B[i] = new int[m + 1];
+	}
+
+	BFS(A, B, n, m);
+	for (int i = 1; i < n + 1; i++) {
+		for (int j = 1; j < m + 1; j++) {
+			cout << B[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void BFS(int **A, int **D, int n, int m) {
+
+	queue <Pair> Q;
+	Pair start;
+
+	for (int i = 1; i < n+1; i++) {
+		for (int j = 1; j < m+1; j++)
+			if (A[i][j] == 1) {
+				D[i][j] = 0;
+				start.x = i;
+				start.y = j;
+				Q.push(start);
+			} else
+				D[i][j] = 10000;
+	}
+
+	Pair u, v;
+	int x[4]{ 0,0,-1, 1};
+	int y[4]{-1, 1, 0, 0};
+	while (!Q.empty()) {
+		u = Q.front();
+		Q.pop();
+		for (int i = 0; i < 4; i++) {
+			v.x = u.x + x[i];
+			v.y = u.y + y[i];
+			if (ifCoord(v, n, m) && D[u.x][u.y]+1 < D[v.x][v.y]) {
+				Q.push(v);
+				D[v.x][v.y] = D[u.x][u.y] + 1;
+			}
+		}
+	}
+}
+
+bool ifCoord(Pair x, int n, int m) {
+	if (x.x >= 1 && x.x <= n && x.y >= 1 && x.y <= m)
+		return true;
+	return false;
+}

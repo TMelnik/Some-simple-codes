@@ -1,0 +1,45 @@
+#include<fstream>
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+struct Car {
+	string name;
+	int year;
+};
+
+int main()
+{
+	fstream fin("cars.txt", ios::in | ios::out);
+	int index = 1;
+	char ch;
+
+	while (!fin.eof()) {
+		fin.get(ch);
+		if (ch == '\n')
+			index++;
+	}
+
+	fin.seekg(0, ios_base::beg);
+	fin.close();
+
+	fin.open("cars.txt");
+	Car *a = new Car[index];
+	for (int i = 0; i < index; i++)
+		fin >> a[i].name >> a[i].year;
+
+	fin.close();
+
+	ofstream fout("newFile.txt", ios_base::out);
+	int carYear;
+	cin >> carYear;
+
+	for (int i = 0; i < index; i++)
+		if (a[i].year == carYear)
+			fout << a[i].name << " " << a[i].year  << endl;
+
+
+	fout.close();
+
+}
