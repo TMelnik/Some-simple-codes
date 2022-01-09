@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main() {
+		vector<int> month_lengths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    vector<string> month_names = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+    int month_index;
+    cin >> month_index;
+
+    if(month_index >= 1 && month_index <= 12 ){
+        cout << "There are "s << month_lengths[month_index - 1]<< " days in "s << month_names[month_index - 1];
+    }else
+        cout << "Incorrect month";
+}
