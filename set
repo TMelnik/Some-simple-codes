@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <set>
+
+using namespace std;
+
+int main() {
+    // считываем число строк
+    // создаём множество
+    // заполняем его строками и выводим размер
+
+    int N;
+    cin >> N;
+
+    set<string> setStr;
+    string str;
+
+    for(int i = 0; i < N; ++i){
+        cin >> str;
+        setStr.insert(str);
+    }
+
+    cout << setStr.size();
+
+    return 0;
+}
