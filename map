@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+string FindWidespreadBird(const vector<string>& types) {
+    // напишите здесь ваше решение
+    map<string, int> in_map_types;
+
+    for(const string& t: types){
+        if(in_map_types.count(t) == 0){
+            in_map_types[t] = 1;
+			}
+			else {
+				++in_map_types[t];
+        }
+    }
+
+    int current_max = 0;
+    string widespread_bird = ""s;
+
+    for(const auto& [key, value] : in_map_types){
+        if(value > current_max){
+            current_max = value;
+            widespread_bird = key;
+        }
+    }
+    return widespread_bird;
+}
+
+int main() {
+    vector<string> bird_types1 = {"zyablik"s, "sinica"s, "vorobey"s, "zyablik"s, "sinica"s, "sinica"s};
+    if (FindWidespreadBird(bird_types1) == "sinica"s) {
+        cout << "Correct"s << endl;
+    } else {
+        cout << "Not correct"s << endl;
+    }
+
+    vector<string> bird_types2 = {"ruh"s, "sirin"s, "blue bird of fortune"s, "finist"s, "fenix"s};
+    if (FindWidespreadBird(bird_types2) == "blue bird of fortune"s ) {
+        cout << "Correct"s << endl;
+    } else {
+        cout << "Not correct"s << endl;
+    }
+}
